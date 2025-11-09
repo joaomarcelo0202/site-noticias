@@ -1,0 +1,216 @@
+:root{
+  --bg: #0b1220;          /* fundo escuro */
+  --card: #10192e;        /* cartão */
+  --muted: #8aa0c6;       /* texto secundário */
+  --text: #eaf0ff;        /* texto principal */
+  --brand: #6aa8ff;       /* azul destaque */
+  --accent: #92ffd8;      /* verdinho suave */
+  --border: rgba(255,255,255,.08);
+  --radius: 18px;
+  --shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+*{ box-sizing: border-box; }
+html,body{ height: 100%; }
+body{
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #203055 0%, transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, #143057 0%, transparent 55%),
+    var(--bg);
+  line-height: 1.55;
+}
+
+/* container central */
+.wrap{
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+/* topo/hero */
+header{
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+.brand{
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+}
+.logo-dot{
+  width: 14px; height: 14px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--accent), #4ad2aa);
+  box-shadow: 0 0 18px rgba(146,255,216,.6);
+}
+h1{ margin: 0; font-size: clamp(22px, 3.2vw, 30px); letter-spacing: .2px; }
+.slogan{ margin: 6px 0 14px; color: var(--muted); font-size: 14px; }
+
+/* menu pílulas */
+nav{
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+nav a{
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.04);
+  transition: transform .12s ease, border-color .12s ease;
+  font-size: 14px;
+}
+nav a:hover, nav a:focus{
+  transform: translateY(-1px);
+  border-color: rgba(146,255,216,.5);
+  outline: none;
+}
+
+/* grade de cartões */
+.grid{
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 760px){
+  .grid{ grid-template-columns: repeat(2, 1fr); }
+  .grid > article:first-child{ grid-column: span 2; } /* destaque na primeira */
+}
+
+article.card{
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  box-shadow: var(--shadow);
+  display: grid;
+}
+.thumb{
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.05);
+}
+.card-body{ padding: 16px; }
+.chip{
+  display: inline-block;
+  font-size: 12px;
+  color: #001b16;
+  background: linear-gradient(180deg, var(--accent), #65f0bf);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+.titulo{
+  margin: 4px 0 8px;
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.3;
+  letter-spacing: .2px;
+}
+.resumo{ margin: 0 0 12px; color: var(--muted); }
+
+.cta{
+  display: inline-block;
+  text-decoration: none;
+  background: linear-gradient(180deg, var(--brand), #3f79dd);
+  color: #00122e;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.15);
+  transition: transform .12s ease, filter .12s ease;
+}
+.cta:hover, .cta:focus{ transform: translateY(-1px); filter: brightness(1.05); outline: none; }
+
+.credito{
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  border-top: 1px dashed var(--border);
+  padding-top: 8px;
+}
+
+footer{
+  margin-top: 28px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+}
+
+/* acessibilidade extra */
+@media (prefers-reduced-motion: reduce){
+  *{ transition: none !important; }
+}
+a:focus{ outline: 2px dashed var(--accent); outline-offset: 2px; }
+/* === efeitos de destaque simples nos cards === */
+
+/* 1) base do card: deixa preparado pra animar */
+article.card{
+  position: relative;           /* necessário pro brilho ficar por trás */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  box-shadow: var(--shadow);
+  display: grid;
+
+  /* animação suave (subir e aumentar sombra) */
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    border-color .16s ease;
+  will-change: transform, box-shadow;
+}
+
+/* 2) “brilho” atrás do card (fica invisível até o hover) */
+article.card::before{
+  content: "";
+  position: absolute;
+  inset: -10px;                 /* um pouco maior que o card */
+  z-index: -1;                  /* atrás do card */
+  border-radius: calc(var(--radius) + 12px);
+  background:
+    radial-gradient(40% 60% at 50% 0%,
+      rgba(146,255,216, .28),   /* verdinho suave (usa --accent) */
+      transparent 60%)
+    ,
+    radial-gradient(60% 80% at 80% 100%,
+      rgba(106,168,255, .22),   /* azulzinho (usa --brand) */
+      transparent 70%);
+  opacity: 0;                   /* escondido no normal */
+  filter: blur(12px);           /* bem suave */
+  transition: opacity .16s ease, filter .16s ease;
+}
+
+/* 3) efeito quando passa o mouse (ou foco via teclado) */
+article.card:hover,
+article.card:focus-within{
+  transform: translateY(-4px);          /* “levanta” o card */
+  box-shadow: 0 16px 38px rgba(0,0,0,.45); /* sombra um pouco maior */
+  border-color: rgba(146,255,216,.35);  /* borda levemente acesa */
+}
+
+article.card:hover::before,
+article.card:focus-within::before{
+  opacity: 1;                  /* mostra o brilho */
+  filter: blur(14px);          /* um pouquinho mais difuso */
+}
+
+/* 4) deixa os links/botão com leve subida também (opcional e simples) */
+.cta{
+  transition: transform .12s ease, filter .12s ease;
+}
+.cta:hover, .cta:focus{ transform: translateY(-1px); filter: brightness(1.05); }
+
+/* acessibilidade: se a pessoa prefere menos animação, desliga as transições */
+@media (prefers-reduced-motion: reduce){
+  article.card,
+  article.card::before,
+  .cta{ transition: none !important; }
+}
