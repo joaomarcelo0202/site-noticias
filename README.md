@@ -4,8 +4,7 @@ Um site estático e responsivo em HTML + CSS, com cards de manchetes, tema escur
 
 🔗 Acesse
 
-[https://SEU_USUARIO.github.io/site-noticias/](https://joaomarcelo0202.github.io/site-noticias/
-)
+https://joaomarcelo0202.github.io/site-noticias/
 
 📂 Arquivos
 index.html
